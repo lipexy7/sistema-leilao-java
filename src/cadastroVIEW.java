@@ -7,6 +7,12 @@
  *
  * @author Adm
  */
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 public class cadastroVIEW extends javax.swing.JFrame {
 
     /**
@@ -140,17 +146,29 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        ProdutosDTO produto = new ProdutosDTO();
-        String nome = cadastroNome.getText();
-        String valor = cadastroValor.getText();
-        String status = "A Venda";
-        produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
-        produto.setStatus(status);
-        
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
-        
+       // 1. Captura os dados dos campos da tela
+String nome = cadastroNome.getText();
+String valorStr = cadastroValor.getText();
+String status = "A Venda"; // Status padrão inicial
+
+// 2. Validação básica para não enviar campos vazios
+if (nome.isEmpty() || valorStr.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.");
+} else {
+    // 3. Criamos o objeto DTO para transportar os dados
+    ProdutosDTO produto = new ProdutosDTO();
+    produto.setNome(nome);
+    produto.setValor(Integer.parseInt(valorStr));
+    produto.setStatus(status);
+
+    // 4. Enviamos para a DAO realizar a gravação no banco
+    ProdutosDAO produdao = new ProdutosDAO();
+    produdao.cadastrarProduto(produto);
+
+    // 5. Limpamos os campos para o próximo cadastro
+    cadastroNome.setText("");
+    cadastroValor.setText("");
+}
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
