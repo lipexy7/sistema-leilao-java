@@ -15,18 +15,16 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class vendasView extends javax.swing.JFrame {
+public class vendasVIEW extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vendasView.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vendasVIEW.class.getName());
 
     /**
      * Creates new form vendasView
      */
-    public vendasView() {
+    public vendasVIEW() {
         initComponents();
-        
-    initComponents();
-    listarProdutosVendidos(); // A mágica acontece aqui ao abrir a tela
+        listarProdutosVendidos(); // A mágica acontece aqui ao abrir a tela
     }
 
     /**
@@ -108,7 +106,7 @@ public class vendasView extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new vendasView().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new vendasVIEW().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -120,8 +118,9 @@ public class vendasView extends javax.swing.JFrame {
     private void listarProdutosVendidos() {
     try {
         ProdutosDAO produtosdao = new ProdutosDAO();
-        DefaultTableModel model = (DefaultTableModel) tabelaVendas.getModel();
-        model.setNumRows(0); // Limpa a tabela antes de preencher
+        // Pega o modelo da tabela que você desenhou
+        DefaultTableModel model = (DefaultTableModel) tabelaVendas.getModel(); 
+        model.setNumRows(0); // Limpa a tabela antes de carregar
 
         ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutosVendidos();
 
@@ -134,9 +133,8 @@ public class vendasView extends javax.swing.JFrame {
             });
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Erro ao listar vendidos na tela: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Erro na tela de vendas: " + e.getMessage());
     }
 }
-
 }
 
