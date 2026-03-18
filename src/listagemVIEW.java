@@ -136,12 +136,15 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+      // Captura o ID do campo de texto
+      int id = Integer.parseInt(id_produto_venda.getText()); 
+
+      ProdutosDAO dao = new ProdutosDAO();
+      dao.venderProduto(id);
+
+      // Limpa o campo e atualiza a tabela na tela
+      id_produto_venda.setText("");
+      listarProdutos(); // Esse chama o SELECT * que já tínhamos
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed

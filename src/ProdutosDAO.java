@@ -65,22 +65,25 @@ public class ProdutosDAO {
 
     // 3. Método para Vender Produto (O que você tinha feito por último!)
     public void venderProduto(int id) {
-        String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+       // A query que o professor pediu: muda o status para 'Vendido'
+    String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+    
+    try {
+        prep = conexao.connectDB().prepareStatement(sql);
+        prep.setInt(1, id);
         
-        try {
-            prep = conexao.connectDB().prepareStatement(sql);
-            prep.setInt(1, id);
-            
-            int rowsAffected = prep.executeUpdate();
-            
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Produto ID " + id + " vendido com sucesso!");
-            } else {
-                JOptionPane.showMessageDialog(null, "ID não encontrado.");
-            }
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao vender: " + e.getMessage());
+        int rowsAffected = prep.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Sucesso! Produto ID " + id + " marcado como Vendido.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Atenção: ID não encontrado no banco.");
         }
+        
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao vender: " + e.getMessage());
     }
+   }
 }
+// Funciona pelo amor de Deus :(
+// Funcionou :D
