@@ -38,52 +38,61 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + e.getMessage());
         }
     }
-
-    // 2. Método para Listar Produtos
-    public ArrayList<ProdutosDTO> listarProdutos() {
-        String sql = "SELECT * FROM produtos";
-        listagem.clear(); // Limpa a lista antes de preencher
-        
-        try {
-            prep = conexao.connectDB().prepareStatement(sql);
-            resultset = prep.executeQuery();
-            
-            while (resultset.next()) {
-                ProdutosDTO p = new ProdutosDTO();
-                p.setId(resultset.getInt("id"));
-                p.setNome(resultset.getString("nome"));
-                p.setValor(resultset.getInt("valor"));
-                p.setStatus(resultset.getString("status"));
-                
-                listagem.add(p);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar: " + e.getMessage());
+    
+    // MÉTODO 1: Para a tela de Listagem (Mostra tudo)
+public ArrayList<ProdutosDTO> listarProdutos() {
+    String sql = "SELECT * FROM produtos"; // Sem filtro WHERE
+    listagem.clear();
+    try {
+        prep = conexao.connectDB().prepareStatement(sql);
+        resultset = prep.executeQuery();
+        while (resultset.next()) {
+            ProdutosDTO p = new ProdutosDTO();
+            p.setId(resultset.getInt("id"));
+            p.setNome(resultset.getString("nome"));
+            p.setValor(resultset.getInt("valor"));
+            p.setStatus(resultset.getString("status"));
+            listagem.add(p);
         }
-        return listagem;
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar tudo: " + e.getMessage());
     }
+    return listagem;
+}
 
+// MÉTODO 2: Para a tela de Vendas (Mostra só vendidos)
+public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+    String sql = "SELECT * FROM produtos WHERE status = 'Vendido'"; // Com filtro WHERE
+    listagem.clear();
+    try {
+        prep = conexao.connectDB().prepareStatement(sql);
+        resultset = prep.executeQuery();
+        while (resultset.next()) {
+            ProdutosDTO p = new ProdutosDTO();
+            p.setId(resultset.getInt("id"));
+            p.setNome(resultset.getString("nome"));
+            p.setValor(resultset.getInt("valor"));
+            p.setStatus(resultset.getString("status"));
+            listagem.add(p);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar vendidos: " + e.getMessage());
+    }
+    return listagem;
+}
     // 3. Método para Vender Produto (O que você tinha feito por último!)
     public void venderProduto(int id) {
-       // A query que o professor pediu: muda o status para 'Vendido'
     String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
-    
     try {
         prep = conexao.connectDB().prepareStatement(sql);
         prep.setInt(1, id);
-        
-        int rowsAffected = prep.executeUpdate();
-        
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Sucesso! Produto ID " + id + " marcado como Vendido.");
-        } else {
-            JOptionPane.showMessageDialog(null, "Atenção: ID não encontrado no banco.");
-        }
-        
+        prep.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Erro ao vender: " + e.getMessage());
     }
-   }
 }
+}
+
 // Funciona pelo amor de Deus :(
 // Funcionou :D
